@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="960" height="300" font-family="'DejaVu Sans Mono','Courier New',ui-monospace,monospace">
+  <defs>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+    <radialGradient id="cy" cx="38%" cy="34%" r="68%">
+      <stop offset="0%" stop-color="#d6f6ff"/><stop offset="45%" stop-color="#39d6ff"/><stop offset="100%" stop-color="#0a6b8f"/>
+    </radialGradient>
+    <radialGradient id="mg" cx="38%" cy="34%" r="68%">
+      <stop offset="0%" stop-color="#ffd6f4"/><stop offset="45%" stop-color="#ff4fd8"/><stop offset="100%" stop-color="#8f1c74"/>
+    </radialGradient>
+    <radialGradient id="yl" cx="38%" cy="34%" r="68%">
+      <stop offset="0%" stop-color="#fff2c4"/><stop offset="45%" stop-color="#ffd23f"/><stop offset="100%" stop-color="#8f6a12"/>
+    </radialGradient>
+    <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e7cd97"/><stop offset="55%" stop-color="#c9a86a"/><stop offset="100%" stop-color="#9c8047"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Trinity emblem: clock ring with three orbs + hand -->
+  <g transform="translate(150,150)">
+    <!-- outer ring + ticks -->
+    <circle r="104" fill="none" stroke="#6b5836" stroke-width="2"/>
+    <circle r="112" fill="none" stroke="#c9a86a" stroke-width="3"/>
+    <!-- 12 tick marks -->
+    <g stroke="#8c754a" stroke-width="2.5">
+      <line x1="0" y1="-106" x2="0" y2="-96"/>
+      <line x1="53" y1="-91.8" x2="47.6" y2="-82.4"/>
+      <line x1="91.8" y1="-53" x2="82.4" y2="-47.6"/>
+      <line x1="106" y1="0" x2="96" y2="0"/>
+      <line x1="91.8" y1="53" x2="82.4" y2="47.6"/>
+      <line x1="53" y1="91.8" x2="47.6" y2="82.4"/>
+      <line x1="0" y1="106" x2="0" y2="96"/>
+      <line x1="-53" y1="91.8" x2="-47.6" y2="82.4"/>
+      <line x1="-91.8" y1="53" x2="-82.4" y2="47.6"/>
+      <line x1="-106" y1="0" x2="-96" y2="0"/>
+      <line x1="-91.8" y1="-53" x2="-82.4" y2="-47.6"/>
+      <line x1="-53" y1="-91.8" x2="-47.6" y2="-82.4"/>
+    </g>
+    <!-- clock hand -->
+    <line x1="0" y1="0" x2="34" y2="-64" stroke="#e8e4ff" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+    <circle r="5" fill="#e8e4ff"/>
+    <!-- three orbs (cyan top, magenta lower-right, yellow lower-left) -->
+    <g>
+      <circle cx="0" cy="-70" r="26" fill="#39d6ff" filter="url(#soft)" opacity="0.6"/>
+      <circle cx="0" cy="-70" r="19" fill="url(#cy)"/>
+      <circle cx="60.6" cy="35" r="26" fill="#ff4fd8" filter="url(#soft)" opacity="0.6"/>
+      <circle cx="60.6" cy="35" r="19" fill="url(#mg)"/>
+      <circle cx="-60.6" cy="35" r="26" fill="#ffd23f" filter="url(#soft)" opacity="0.6"/>
+      <circle cx="-60.6" cy="35" r="19" fill="url(#yl)"/>
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(320,0)">
+    <text x="0" y="140" font-size="76" font-weight="700" letter-spacing="10" fill="#7a683f" opacity="0.5" filter="url(#soft)">KICKOFF</text>
+    <text x="0" y="140" font-size="76" font-weight="700" letter-spacing="10" fill="url(#brass)" filter="url(#glow)">KICKOFF</text>
+    <text x="4" y="212" font-size="60" font-weight="700" letter-spacing="26" fill="#cfe9ff">TRINITY</text>
+    <text x="6" y="250" font-size="17" letter-spacing="7" fill="#8a82c0">BEND TIME · KICK OFF · WIN</text>
+  </g>
+</svg>

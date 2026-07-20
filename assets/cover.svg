@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 630 500" width="630" height="500" font-family="'DejaVu Sans Mono','Courier New',ui-monospace,monospace">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="80%">
+      <stop offset="0%" stop-color="#1a1440"/><stop offset="55%" stop-color="#0d0a1f"/><stop offset="100%" stop-color="#070510"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="50%" cy="45%" r="62%">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/><stop offset="100%" stop-color="#000000" stop-opacity="0.6"/>
+    </radialGradient>
+    <filter id="g" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="cy" cx="38%" cy="34%" r="68%"><stop offset="0%" stop-color="#d6f6ff"/><stop offset="45%" stop-color="#39d6ff"/><stop offset="100%" stop-color="#0a6b8f"/></radialGradient>
+    <radialGradient id="mg" cx="38%" cy="34%" r="68%"><stop offset="0%" stop-color="#ffd6f4"/><stop offset="45%" stop-color="#ff4fd8"/><stop offset="100%" stop-color="#8f1c74"/></radialGradient>
+    <radialGradient id="yl" cx="38%" cy="34%" r="68%"><stop offset="0%" stop-color="#fff2c4"/><stop offset="45%" stop-color="#ffd23f"/><stop offset="100%" stop-color="#8f6a12"/></radialGradient>
+    <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#efd8a4"/><stop offset="55%" stop-color="#c9a86a"/><stop offset="100%" stop-color="#9c8047"/></linearGradient>
+    <linearGradient id="tcy" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#39d6ff" stop-opacity="0"/><stop offset="100%" stop-color="#39d6ff"/></linearGradient>
+    <linearGradient id="tmg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#ff4fd8" stop-opacity="0"/><stop offset="100%" stop-color="#ff4fd8"/></linearGradient>
+    <linearGradient id="tyl" x1="1" y1="0" x2="0" y2="0"><stop offset="0%" stop-color="#ffd23f" stop-opacity="0"/><stop offset="100%" stop-color="#ffd23f"/></linearGradient>
+  </defs>
+
+  <rect width="630" height="500" fill="url(#bg)"/>
+  <!-- faint grid -->
+  <g stroke="#7a5ac0" stroke-opacity="0.06" stroke-width="1">
+    <g id="v"></g>
+    <path d="M30 0V500M60 0V500M90 0V500M120 0V500M150 0V500M180 0V500M210 0V500M240 0V500M270 0V500M300 0V500M330 0V500M360 0V500M390 0V500M420 0V500M450 0V500M480 0V500M510 0V500M540 0V500M570 0V500M600 0V500"/>
+    <path d="M0 30H630M0 60H630M0 90H630M0 120H630M0 150H630M0 180H630M0 210H630M0 240H630M0 270H630M0 300H630M0 330H630M0 360H630M0 390H630M0 420H630M0 450H630M0 480H630"/>
+  </g>
+
+  <!-- motion trails feeding the three orbs -->
+  <g fill="none" stroke-linecap="round" filter="url(#g)">
+    <path d="M120 40 Q220 70 315 118" stroke="url(#tcy)" stroke-width="5" opacity="0.9"/>
+    <path d="M600 120 Q510 150 424 178" stroke="url(#tmg)" stroke-width="5" opacity="0.9"/>
+    <path d="M40 150 Q120 168 206 178" stroke="url(#tyl)" stroke-width="5" opacity="0.9"/>
+  </g>
+
+  <!-- three orbs: trinity -->
+  <g>
+    <circle cx="315" cy="118" r="34" fill="#39d6ff" filter="url(#soft)" opacity="0.55"/>
+    <circle cx="315" cy="118" r="22" fill="url(#cy)"/>
+    <circle cx="307" cy="110" r="7" fill="#ffffff" opacity="0.55"/>
+    <circle cx="424" cy="178" r="34" fill="#ff4fd8" filter="url(#soft)" opacity="0.55"/>
+    <circle cx="424" cy="178" r="22" fill="url(#mg)"/>
+    <circle cx="416" cy="170" r="7" fill="#ffffff" opacity="0.5"/>
+    <circle cx="206" cy="178" r="34" fill="#ffd23f" filter="url(#soft)" opacity="0.55"/>
+    <circle cx="206" cy="178" r="22" fill="url(#yl)"/>
+    <circle cx="198" cy="170" r="7" fill="#ffffff" opacity="0.5"/>
+  </g>
+
+  <!-- wordmark -->
+  <g text-anchor="middle">
+    <text x="315" y="312" font-size="66" font-weight="700" letter-spacing="6" fill="#7a683f" opacity="0.45" filter="url(#soft)">KICKOFF</text>
+    <text x="315" y="312" font-size="66" font-weight="700" letter-spacing="6" fill="url(#brass)" filter="url(#g)">KICKOFF</text>
+    <text x="318" y="366" font-size="46" font-weight="700" letter-spacing="22" fill="#cfe9ff">TRINITY</text>
+    <text x="315" y="408" font-size="14" letter-spacing="3.5" fill="#9a92cf">EVERY BALL HAS ITS OWN CLOCK</text>
+  </g>
+
+  <!-- credit strip -->
+  <g text-anchor="middle">
+    <text x="315" y="462" font-size="15" letter-spacing="3" fill="#c9a86a">movfuscators</text>
+    <text x="315" y="483" font-size="12" letter-spacing="2" fill="#6f68a0">a &quot;Kickoff&quot; game jam entry</text>
+  </g>
+
+  <rect width="630" height="500" fill="url(#vig)"/>
+</svg>

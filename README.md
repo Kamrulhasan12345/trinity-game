@@ -1,5 +1,7 @@
 # Kickoff Trinity
 
+![Kickoff Trinity](assets/banner.png)
+
 A 2D time-manipulation puzzle game built for the **"Kickoff"** game jam.
 
 Every ball has its own clock. You *kick off* each ball, then bend its **local time** —
@@ -109,6 +111,12 @@ ball's local time and direction.
 
 Tip: freezing a ball *parks* it — useful for holding a switch, or for pinning a ball in its
 goal while you orchestrate the rest.
+
+## Branding & press kit
+
+Logo, cover, banner, and the colour palette (with itch.io theme mapping) live in
+[`assets/`](assets/) — see [`assets/BRAND.md`](assets/BRAND.md). Art is authored as
+editable SVG and rasterized to 2× PNG.
 
 ---
 
