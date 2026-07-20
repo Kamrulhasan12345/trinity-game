@@ -4,10 +4,11 @@ import { InputController } from "./game/input.js";
 import { Renderer } from "./render/renderer.js";
 import { Clocks } from "./ui/clocks.js";
 import { Hud } from "./ui/hud.js";
+import { Screens } from "./ui/screens.js";
 import { getLevel, levelCount } from "./levels/index.js";
 import { Sfx } from "./audio/sfx.js";
 import { Reactor } from "./audio/reactor.js";
-import { loadProgress, saveProgress } from "./game/progress.js";
+import { saveProgress } from "./game/progress.js";
 import type { Vec2 } from "./engine/vec2.js";
 
 const canvas = document.getElementById("game") as HTMLCanvasElement;
@@ -31,23 +32,28 @@ window.addEventListener("keydown", (e) => {
   if (e.key.toLowerCase() === "m") sfx.toggleMuted();
 });
 
-// Optional ?level=N (1-based) forces a level for dev/tests; otherwise resume the
-// furthest level the player has reached.
-const startLevel = (() => {
-  const p = new URLSearchParams(location.search).get("level");
-  if (p !== null) {
-    const n = Number(p) - 1;
-    return Number.isFinite(n) && n >= 0 ? Math.min(n, levelCount() - 1) : 0;
-  }
-  return Math.min(loadProgress(), levelCount() - 1);
-})();
+const screens = new Screens(
+  document.getElementById("menu")!,
+  document.getElementById("finale")!,
+  document.getElementById("menu-play") as HTMLButtonElement,
+  document.getElementById("menu-continue") as HTMLButtonElement,
+  document.getElementById("finale-replay") as HTMLButtonElement,
+  { onPlay: () => boot(0), onContinue: (n) => boot(n), onReplay: () => boot(0) },
+);
 
 let current: { input: InputController; loop: GameLoop } | null = null;
 
-/** Tear down the running level (if any) and build the given one. */
-function boot(levelIndex: number) {
+/** Stop the running level and clear its debug handle (used before an overlay). */
+function teardown() {
   current?.input.dispose();
   current?.loop.stop();
+  current = null;
+}
+
+/** Tear down the running level (if any) and build the given one. */
+function boot(levelIndex: number) {
+  teardown();
+  screens.hide();
 
   const level = getLevel(levelIndex);
   const sim = new Simulation(level);
@@ -61,7 +67,8 @@ function boot(levelIndex: number) {
     canvas,
     sim,
     () => boot(levelIndex), // reset current level
-    () => boot(hasNext ? levelIndex + 1 : levelIndex), // advance on win
+    // Advance on win: next level, or the finale after the last one.
+    () => (hasNext ? boot(levelIndex + 1) : showFinale()),
   );
   const clocks = new Clocks(clocksEl, sim, input);
 
@@ -86,4 +93,18 @@ function boot(levelIndex: number) {
   };
 }
 
-boot(startLevel);
+/** End the run: stop the game and raise the finale/credits overlay. */
+function showFinale() {
+  teardown();
+  screens.showFinale();
+}
+
+// Boot flow: `?level=N` (1-based) jumps straight in for dev/tests; otherwise the
+// start menu is the front door (Play always begins at level 1).
+const levelParam = new URLSearchParams(location.search).get("level");
+if (levelParam !== null) {
+  const n = Number(levelParam) - 1;
+  boot(Number.isFinite(n) && n >= 0 ? Math.min(n, levelCount() - 1) : 0);
+} else {
+  screens.showMenu();
+}

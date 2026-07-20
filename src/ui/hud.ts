@@ -30,7 +30,7 @@ export class Hud {
     if (sim.won) {
       this.hint.textContent = opts.hasNext
         ? "press Enter or click for the next kickoff"
-        : "press Enter or click to play again";
+        : "press Enter or click for the ultimate kickoff";
       this.banner.textContent = "KICKOFF COMPLETE";
       this.banner.classList.add("show");
       return;

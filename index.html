@@ -36,6 +36,31 @@
         text-shadow: 0 0 20px rgba(201,168,106,0.6); pointer-events: none;
         opacity: 0; transition: opacity 0.4s; }
       #banner.show { opacity: 1; }
+
+      /* Full-screen overlays (start menu + finale). Hidden unless .show. */
+      .overlay { position: absolute; inset: 0; display: none;
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 18px; text-align: center; padding: 24px;
+        background: radial-gradient(ellipse at center, #140f30 0%, #0a0818 80%); }
+      .overlay.show { display: flex; }
+      .overlay .title { font-size: 52px; letter-spacing: 0.14em; color: var(--brass);
+        text-shadow: 0 0 26px rgba(201,168,106,0.55); margin: 0; }
+      .overlay .tag { font-size: 13px; letter-spacing: 0.35em; text-transform: uppercase;
+        color: #8a82c0; margin: -6px 0 6px; }
+      .overlay .team { font-size: 13px; color: var(--ink); opacity: 0.85; max-width: 520px; }
+      .overlay .team b { color: var(--brass); letter-spacing: 0.06em; }
+      .overlay .team .members { display: block; margin-top: 4px; color: #b8b2e0; font-size: 12px; }
+      .overlay .controls { font-size: 11.5px; line-height: 1.9; color: #8a82c0;
+        max-width: 560px; margin-top: 4px; }
+      .overlay .controls b { color: var(--ink); }
+      .btn { font: inherit; font-size: 15px; letter-spacing: 0.08em; cursor: pointer;
+        color: var(--brass); background: transparent; border: 1.5px solid var(--brass);
+        padding: 11px 30px; border-radius: 3px; transition: background 0.18s, color 0.18s;
+        text-shadow: 0 0 10px rgba(201,168,106,0.4); }
+      .btn:hover { background: var(--brass); color: #0a0818; text-shadow: none; }
+      .btn.secondary { font-size: 13px; padding: 8px 22px; border-color: #6b5836; color: #b39a63; }
+      .btn.secondary:hover { background: #6b5836; color: var(--ink); }
+      #finale .title { color: #ffd23f; text-shadow: 0 0 30px rgba(255,210,63,0.6); }
     </style>
   </head>
   <body>
@@ -48,6 +73,35 @@
       <div id="hint"></div>
       <div id="clocks"></div>
       <div id="banner"></div>
+
+      <div id="menu" class="overlay">
+        <p class="tag">A "Kickoff" jam game</p>
+        <h1 class="title">KICKOFF TRINITY</h1>
+        <p class="team">
+          <b>movfuscators</b>
+          <span class="members">Mohammad Kamrul Hasan · Zabir Zamee · Siam Rafsan Prionto</span>
+        </p>
+        <button id="menu-play" class="btn">KICK OFF</button>
+        <button id="menu-continue" class="btn secondary" style="display: none"></button>
+        <p class="controls">
+          <b>Drag</b> from a glowing cannon to kick off &nbsp;·&nbsp;
+          <b>1/2/3</b> select ball<br />
+          <b>W</b> play &nbsp; <b>S</b> pause &nbsp; <b>X</b> reverse &nbsp;
+          <b>Q/E</b> speed &nbsp; <b>Space</b> global pause &nbsp; <b>M</b> mute &nbsp;
+          hold <b>R</b> reset<br />
+          Land every ball in its colour-matched goal at the same moment.
+        </p>
+      </div>
+
+      <div id="finale" class="overlay">
+        <p class="tag">The ultimate kickoff</p>
+        <h1 class="title">YOU WIN</h1>
+        <p class="team">
+          Thanks for playing <b>KICKOFF TRINITY</b>
+          <span class="members">movfuscators — Mohammad Kamrul Hasan · Zabir Zamee · Siam Rafsan Prionto</span>
+        </p>
+        <button id="finale-replay" class="btn">PLAY AGAIN</button>
+      </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
