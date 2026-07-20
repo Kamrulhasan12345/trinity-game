@@ -46,6 +46,7 @@ for upload. The PNGs are ready to use; regenerate with `scratchpad/rasterize.mjs
 | `logo.svg` / `logo.png` | 1920×600, transparent | Game logo on dark surfaces |
 | `cover.svg` / `cover.png` | 1260×1000 (630×500 @2×) | itch.io **cover image** |
 | `banner.svg` / `banner.png` | 2400×1260 (1200×630 @2×) | itch.io page header / social / OpenGraph |
+| `../public/favicon.svg` (+ `favicon-32.png`, `apple-touch-icon.png`, `favicon-512.png`) | 64px source → 32/180/512 | Browser tab icon — trinity orbs on a dark tile; ships from `public/` |
 
 Note: the logo PNG is transparent and designed for **dark** backgrounds. The cover
 and banner are self-contained (own background). itch.io covers must be raster

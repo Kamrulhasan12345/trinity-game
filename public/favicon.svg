@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="cy" cx="38%" cy="34%" r="70%"><stop offset="0%" stop-color="#d6f6ff"/><stop offset="50%" stop-color="#39d6ff"/><stop offset="100%" stop-color="#0a6b8f"/></radialGradient>
+    <radialGradient id="mg" cx="38%" cy="34%" r="70%"><stop offset="0%" stop-color="#ffd6f4"/><stop offset="50%" stop-color="#ff4fd8"/><stop offset="100%" stop-color="#8f1c74"/></radialGradient>
+    <radialGradient id="yl" cx="38%" cy="34%" r="70%"><stop offset="0%" stop-color="#fff2c4"/><stop offset="50%" stop-color="#ffd23f"/><stop offset="100%" stop-color="#8f6a12"/></radialGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  </defs>
+  <!-- dark rounded tile (transparent corners) -->
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="#0d0a1f" stroke="#2a2350" stroke-width="2"/>
+  <!-- brass clock ring -->
+  <circle cx="32" cy="32" r="23" fill="none" stroke="#c9a86a" stroke-width="2" opacity="0.85"/>
+  <!-- clock hand -->
+  <line x1="32" y1="32" x2="41" y2="20" stroke="#e8e4ff" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
+  <!-- trinity orbs -->
+  <g filter="url(#glow)" opacity="0.85">
+    <circle cx="32" cy="17.5" r="8" fill="#39d6ff"/>
+    <circle cx="44.6" cy="39.5" r="8" fill="#ff4fd8"/>
+    <circle cx="19.4" cy="39.5" r="8" fill="#ffd23f"/>
+  </g>
+  <circle cx="32" cy="17.5" r="6" fill="url(#cy)"/>
+  <circle cx="44.6" cy="39.5" r="6" fill="url(#mg)"/>
+  <circle cx="19.4" cy="39.5" r="6" fill="url(#yl)"/>
+  <circle cx="32" cy="32" r="2.4" fill="#e8e4ff"/>
+</svg>
