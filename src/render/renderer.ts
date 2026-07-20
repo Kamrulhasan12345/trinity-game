@@ -2,6 +2,7 @@ import type { Simulation } from "../engine/simulation.js";
 import type { InputController } from "../game/input.js";
 import { BALL_COLORS } from "../game/modes.js";
 import { Trails } from "./trails.js";
+import { Effects } from "./effects.js";
 
 const BRASS = "#c9a86a";
 const BRASS_DIM = "#6b5836";
@@ -9,20 +10,38 @@ const BRASS_DIM = "#6b5836";
 /** Canvas 2D renderer for the clockwork arena. Pure draw; reads sim state. */
 export class Renderer {
   private readonly trails = new Trails();
+  private readonly effects: Effects;
+  private lastTime = performance.now();
 
   constructor(
     private readonly ctx: CanvasRenderingContext2D,
     private readonly width: number,
     private readonly height: number,
-  ) {}
+  ) {
+    this.effects = new Effects(width, height);
+  }
 
   reset(): void {
     this.trails.clear();
+    this.effects.reset();
   }
 
   draw(sim: Simulation, input: InputController): void {
     const g = this.ctx;
+    const now = performance.now();
+    const dt = (now - this.lastTime) / 1000;
+    this.lastTime = now;
+
+    // Cosmetic effects: observe sim events, advance particles (render-clock).
+    this.effects.observe(sim);
+    this.effects.update(dt);
+    const shake = this.effects.shakeOffset();
+
     g.clearRect(0, 0, this.width, this.height);
+
+    // Everything in the arena is drawn inside the screen-shake transform.
+    g.save();
+    g.translate(shake.x, shake.y);
     this.drawGrid();
 
     // Walls.
@@ -79,6 +98,18 @@ export class Renderer {
       g.beginPath();
       g.arc(goal.x, goal.y, goal.radius, 0, Math.PI * 2);
       g.stroke();
+      // Occupied goals breathe with a soft pulsing halo.
+      if (occupied) {
+        const pulse = 0.5 + 0.5 * Math.sin(now / 260);
+        g.save();
+        g.globalCompositeOperation = "lighter";
+        g.globalAlpha = 0.25 + pulse * 0.35;
+        g.lineWidth = 2;
+        g.beginPath();
+        g.arc(goal.x, goal.y, goal.radius + 5 + pulse * 5, 0, Math.PI * 2);
+        g.stroke();
+        g.restore();
+      }
       // Tick marks.
       for (let i = 0; i < 12; i++) {
         const a = (i / 12) * Math.PI * 2;
@@ -92,26 +123,59 @@ export class Renderer {
     }
 
     // Balls + trails.
+    const pulse = 0.5 + 0.5 * Math.sin(now / 340);
     for (const ball of sim.balls) {
       if (!ball.launched) continue;
       const color = BALL_COLORS[ball.index % BALL_COLORS.length]!;
+      const { x, y } = ball.pos;
       this.trails.push(ball.index, ball.pos);
       this.trails.draw(g, ball.index, color);
 
+      // Layered radial bloom (additive) with a gentle breathing pulse.
       g.save();
-      g.shadowColor = color;
-      g.shadowBlur = 18;
-      g.fillStyle = color;
+      g.globalCompositeOperation = "lighter";
+      const bloomR = ball.radius * (3.4 + pulse * 0.6);
+      const grad = g.createRadialGradient(x, y, ball.radius * 0.3, x, y, bloomR);
+      grad.addColorStop(0, hexA(color, 0.55));
+      grad.addColorStop(0.5, hexA(color, 0.18));
+      grad.addColorStop(1, hexA(color, 0));
+      g.fillStyle = grad;
       g.beginPath();
-      g.arc(ball.pos.x, ball.pos.y, ball.radius, 0, Math.PI * 2);
+      g.arc(x, y, bloomR, 0, Math.PI * 2);
       g.fill();
       g.restore();
+
+      // Core disc.
+      g.fillStyle = color;
+      g.beginPath();
+      g.arc(x, y, ball.radius, 0, Math.PI * 2);
+      g.fill();
+      // Bright inner highlight for a glossy read.
+      g.fillStyle = "rgba(255,255,255,0.5)";
+      g.beginPath();
+      g.arc(x - ball.radius * 0.28, y - ball.radius * 0.28, ball.radius * 0.34, 0, Math.PI * 2);
+      g.fill();
+
+      // Rewinding balls wear a cool, dashed "reverse" shimmer ring.
+      if (ball.timeSpeed < 0) {
+        g.save();
+        g.globalCompositeOperation = "lighter";
+        g.strokeStyle = "#9fe8ff";
+        g.globalAlpha = 0.6 + pulse * 0.4;
+        g.lineWidth = 2;
+        g.setLineDash([4, 5]);
+        g.lineDashOffset = -now / 40;
+        g.beginPath();
+        g.arc(x, y, ball.radius + 6, 0, Math.PI * 2);
+        g.stroke();
+        g.restore();
+      }
 
       if (input.mode === "time" && input.selected === ball.index) {
         g.strokeStyle = "#ffffff";
         g.lineWidth = 2;
         g.beginPath();
-        g.arc(ball.pos.x, ball.pos.y, ball.radius + 5, 0, Math.PI * 2);
+        g.arc(x, y, ball.radius + 5, 0, Math.PI * 2);
         g.stroke();
       }
     }
@@ -138,6 +202,27 @@ export class Renderer {
         g.setLineDash([]);
       }
     }
+
+    // Particles + rings sit above the arena but still inside the shake.
+    this.effects.drawWorld(g);
+    g.restore(); // end screen-shake transform
+
+    // Screen-space overlays: vignette, then the win flash.
+    this.drawVignette();
+    this.effects.drawOverlay(g);
+  }
+
+  /** Soft radial darkening at the edges for depth. */
+  private drawVignette(): void {
+    const g = this.ctx;
+    const grad = g.createRadialGradient(
+      this.width / 2, this.height / 2, this.height * 0.35,
+      this.width / 2, this.height / 2, this.height * 0.75,
+    );
+    grad.addColorStop(0, "rgba(0,0,0,0)");
+    grad.addColorStop(1, "rgba(0,0,0,0.45)");
+    g.fillStyle = grad;
+    g.fillRect(0, 0, this.width, this.height);
   }
 
   private drawGrid(): void {
@@ -158,6 +243,14 @@ export class Renderer {
     }
   }
 }
+
+/** "#rrggbb" → "rgba(r,g,b,a)". Colours here are all 6-digit hex literals. */
+const hexA = (hex: string, a: number): string => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},${a})`;
+};
 
 const withinGoal = (
   sim: Simulation,

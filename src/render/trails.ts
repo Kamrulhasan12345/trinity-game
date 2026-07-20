@@ -21,17 +21,24 @@ export class Trails {
   draw(g: CanvasRenderingContext2D, index: number, color: string): void {
     const arr = this.points.get(index);
     if (!arr || arr.length < 2) return;
-    for (let i = 1; i < arr.length; i++) {
+    const n = arr.length;
+    g.save();
+    g.globalCompositeOperation = "lighter"; // additive glow streak
+    g.strokeStyle = color;
+    g.lineCap = "round";
+    g.lineJoin = "round";
+    for (let i = 1; i < n; i++) {
       const a = arr[i - 1]!;
       const b = arr[i]!;
-      g.globalAlpha = (i / arr.length) * 0.5;
-      g.strokeStyle = color;
-      g.lineWidth = 3;
+      const t = i / n; // 0 = oldest tail, 1 = newest head
+      g.globalAlpha = t * t * 0.6; // steeper falloff toward the tail
+      g.lineWidth = 0.5 + t * 5; // taper thin tail -> thick head
       g.beginPath();
       g.moveTo(a.x, a.y);
       g.lineTo(b.x, b.y);
       g.stroke();
     }
+    g.restore();
     g.globalAlpha = 1;
   }
 
