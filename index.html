@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kickoff Trinity</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='none' stroke='%2339d6ff' stroke-width='1.5'/><line x1='8' y1='8' x2='8' y2='4' stroke='%2339d6ff' stroke-width='1.5'/></svg>"
+    />
+    <style>
+      :root {
+        --bg: #0d0a1f;
+        --panel: #171232;
+        --brass: #c9a86a;
+        --ink: #e8e4ff;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink);
+        font-family: ui-monospace, "SF Mono", Menlo, monospace; overflow: hidden; }
+      #app { position: relative; width: 100vw; height: 100vh;
+        display: flex; align-items: center; justify-content: center; }
+      #game { display: block; background: #0a0818; border: 1px solid #2a2350;
+        box-shadow: 0 0 60px rgba(120, 80, 200, 0.15); image-rendering: auto; }
+      #hud { position: absolute; top: 12px; left: 16px; right: 16px;
+        display: flex; justify-content: space-between; pointer-events: none;
+        font-size: 13px; letter-spacing: 0.05em; text-shadow: 0 1px 2px #000; }
+      #hud .right { text-align: right; }
+      #clocks { position: absolute; bottom: 16px; left: 0; right: 0;
+        display: flex; gap: 20px; justify-content: center; pointer-events: auto; }
+      #hint { position: absolute; bottom: 120px; left: 0; right: 0; text-align: center;
+        font-size: 12px; line-height: 1.7; color: #8a82c0; pointer-events: none; }
+      #hint b { color: var(--ink); font-weight: 600; }
+      #banner { position: absolute; top: 42%; left: 0; right: 0; text-align: center;
+        font-size: 34px; letter-spacing: 0.1em; color: var(--brass);
+        text-shadow: 0 0 20px rgba(201,168,106,0.6); pointer-events: none;
+        opacity: 0; transition: opacity 0.4s; }
+      #banner.show { opacity: 1; }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game" width="960" height="600"></canvas>
+      <div id="hud">
+        <div class="left" id="hud-left">Kickoff Trinity</div>
+        <div class="right" id="hud-right">t = 0.00s</div>
+      </div>
+      <div id="hint"></div>
+      <div id="clocks"></div>
+      <div id="banner"></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

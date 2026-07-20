@@ -1,0 +1,20 @@
+{
+  "name": "kickoff-trinity",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Kickoff Trinity — a 2D time-manipulation puzzle game with independent per-ball clocks, on a custom deterministic engine.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.5"
+  }
+}
